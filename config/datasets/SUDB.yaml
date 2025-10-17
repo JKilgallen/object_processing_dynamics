@@ -1,0 +1,96 @@
+name: "SUDB"
+format: "StanfordMatrix"
+subjects: !eval list([f"S{i+1}" for i in range(10)])
+
+features:
+  EEG:
+    n_channels: &n_channels 124
+    n_time_points: &n_time_points 32
+    n_trials: 5184
+    montage: "HGSN_128"
+    sampling_freq: 62.5
+    acquisition_system: "128-channel EGI HCGSN 110 nets"
+    reference: "vertex"
+    preprocessing:
+      - name: "high-pass"
+        type: "butterworth"
+        cutoff: 1
+        order: 4
+      - name: "low-pass"
+        type: "chebyshev (type I)"
+        cutoff: 25
+      - name: "downsampling"
+        factor: 16
+      - name: "ICA"
+        reference: ["VEOG", "HEOG"]
+      - name: "re-referencing"
+        reference: "average"
+      - name: "epoching"
+        window: [0, 496]
+
+    chunk_size: !eval (864, 1, 3)
+  
+  # AEP:
+  #   generator: !eval src.data.feature_engineering.aep.generate_aep
+  #   input_features: ["EEG"]
+  #   kwargs:
+  #     montage: "HGSN_128"
+  #     ref_point: 54
+
+  # WPLI:
+  #   generator: !eval src.data.feature_engineering.wpli.generate_wpli
+  #   input_features: ["EEG"]
+  #   kwargs:
+  #     n_channels: *n_channels
+  #     n_time_points: *n_time_points
+  #     sampling_freq: 62.5
+
+  category:
+    n_classes:  &n_categories 6
+    values: !eval &category_values list(range(6))
+    trials_per_value: 864
+    labels: &category_labels ["Human Body", "Human Face", "Animal Body", "Animal Face", "Natural Object", "Artificial Object"]
+    labels_short: &category_labels_short ["HB", "HF", "AB", "AF", "NO", "AO"]
+    chunk_size: !eval (864,)
+    structure:
+      - name: "super_category"
+        values: [0, 1, 2]
+        labels: ["Human", "Animal", "Object"]
+        mapping: [0, 0, 1, 1, 2, 2]
+
+      - name: "human_vs_animal"
+        values: [0, 1]
+        labels: ["Human", "Animal"]
+        mapping: [0, 0, 1, 1, -1, -1]
+
+      - name: "body_vs_face"
+        values: [0, 1]
+        labels: ["Body", "Face"]
+        mapping: [0, 1, 0, 1, -1, -1]
+
+      - name: "broad_category"
+        values: [0, 1]
+        labels: ["Animate", "Inanimate"]
+        mapping: [0, 0, 0, 0, 1, 1]
+
+  exemplar: &exemplar
+    n_classes: &n_exemplars 72
+    values: !eval list(range(72))
+    trials_per_value: 72
+    chunk_size: !eval (864,)
+    structure:
+      - name: "category"
+        values: *category_values
+        labels: ["Human Body", "Human Face", "Animal Body", "Animal Face", "Natural Object", "Artificial Object"]
+        labels_short: ["HB", "HF", "AB", "AF", "NO", "AO"]
+        mapping: !eval list([i//12 for i in range(72)])
+
+
+chunking:
+  chunk_dim: 0
+  chunk_by: "exemplar"
+
+
+
+
+

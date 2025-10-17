@@ -1,0 +1,52 @@
+name: &dataset "CVPR2021"
+format: PurdueTensor
+subjects: ['S1']
+
+chunking:
+  chunk_dim: 0
+  chunk_by: &chunk_by "object"
+  chunk_size: 1000
+
+features:
+  EEG:
+    n_channels: &n_channels 96
+    n_time_points: &n_time_points 32 # after downsampling
+    n_trials: 40000
+    sampling_freq: 64
+    montage: "BIOSEMI_96"
+    transform:
+      downsample:
+        factor: 16
+
+  object:
+    n_classes: &n_objects 40
+    values: !eval list(range(0, 40, 1))
+
+  AEP:
+    generator: !eval src.data.feature_engineering.aep.generate_aep
+    input_features: ["EEG"]
+    kwargs:
+      montage: "BIOSEMI_96"
+      ref_point: 51
+
+  WPLI:
+    generator: !eval src.data.feature_engineering.wpli.generate_wpli
+    input_features: ["EEG"]
+    kwargs:
+      n_channels: *n_channels
+      n_time_points: *n_time_points
+      sampling_freq: 64
+
+  # EEG_2-128Hz:
+  #   generator: !eval src.data.feature_engineering.preprocess.preprocess_raw_dataset
+  #   kwargs:
+  #     dataset: *dataset
+  #     n_runs: 100
+  #     l_freq: 2
+  #     h_freq: 128
+  #     notch_freq: 60
+  #     resample_sfreq: 128
+  #     order_by: *chunk_by
+
+
+   
