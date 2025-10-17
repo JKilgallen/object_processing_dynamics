@@ -1,0 +1,63 @@
+exp_id: "SUDB_single_electrode_temporal_window_exemplar_decoding"
+scheme:
+  scheme_id: "12_fold_exemplar_decoding"
+  target: &target "exemplar"
+  spatial_subsets: !eval list(i for i in range(124))
+  temporal_subsets: !eval list(slice(i, i+6) for i in range(0, 27, 3))
+  cross_val:
+    method: !eval src.model_selection.cross_validation.generate_stratified_folds
+    n_folds: &n_folds 12
+    n_nested_folds: &n_nested_folds 11
+    kwargs:
+      n_folds: *n_folds
+      n_nested_folds: *n_nested_folds
+      requires:
+        feature: "exemplar"
+  test_partitions: ['test']
+  val_partitions: ['val']
+  analysis:
+    method: !eval src.analysis.analyze_results
+
+dataset_id: &dataset_id "SUDB"
+dataset: !call src.experiments.experiment_loader.load_dataset_cfg kwargs={'dataset_id':'SUDB'}
+n_classes: &n_classes 72
+n_channels: &n_channels 124
+n_time_points: &n_time_points 32
+
+models:
+  LDA:
+    id: "LDA"
+    class: !eval src.models.basemodel.ScikitModel
+    n_active_jobs_per_gpu: 4
+    n_preloaded_jobs_per_gpu: 0
+    arch_config:
+      clf: !eval sklearn.discriminant_analysis.LinearDiscriminantAnalysis
+      solver: 'svd'
+    features:
+      - "EEG"
+    trainer_config:
+      criterion: !eval torch.nn.CrossEntropyLoss
+    search_space:
+      n_components: !eval list(range(3, 7))
+    transforms:
+      EEG:
+        method: !eval src.data.transforms.PCA
+        scaler: !eval src.data.transforms.standardize.Standardize
+
+  SVC:
+    id: "SVC"
+    class: !eval src.models.basemodel.ScikitModel
+    n_active_jobs_per_gpu: 4
+    n_preloaded_jobs_per_gpu: 0
+    arch_config:
+      clf: !eval cuml.svm.SVC
+    features:
+      - "EEG"
+    trainer_config:
+      criterion: !eval torch.nn.CrossEntropyLoss
+    search_space:
+      transforms:
+        - EEG:
+            method: !eval src.data.transforms.Standardize
+            kwargs:
+              dim: !eval (0, 2)
