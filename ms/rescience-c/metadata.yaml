@@ -47,8 +47,8 @@ keywords: computational-neuroscience, decoding, confound, rsa, python
 # Software Heritage.
 #   see https://guides.github.com/activities/citable-code/
 code:
-  - url: https://github.com/rescience-c/template
-  - doi: 10.1371/journal.pone.0135697
+  - url: https://github.com/JKilgallen/object_processing_dynamics
+  - doi: https://doi.org/10.5281/zenodo.17478699
 
 # Data URL and DOI (optional if no data)
 data:

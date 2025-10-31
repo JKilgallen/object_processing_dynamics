@@ -1,0 +1,24 @@
+
+\begin{tabular}{lSSSSS}
+    \toprule
+    & \textbf{Category} & \textbf{Exemplar\textsuperscript{\dag}} & \textbf{HF\textsuperscript{\dag}} & \textbf{IO\textsuperscript{\dag}} & \textbf{HF vs IO}\\
+    & \textbf{(6 class)} & \textbf{(72 class)} & \textbf{(12 class)} & \textbf{(12 class)} & \textbf{(2 class)}\\    
+    \midrule
+    \multicolumn{6}{l}{\textbf{Deconfounded}}\\
+    \quad Accuracy (\%) & 35.94\textsuperscript{***} & {---} & {---} & {---} & 79.82\textsuperscript{***}\\
+    \quad SD & 5.00 & {---} & {---} & {---} & 3.70\\
+    \quad Effect size & 3.86 & {---} & {---} & {---} & 8.06\\
+    \multicolumn{6}{l}{\textbf{Confounded}}\\
+    \quad Accuracy (\%) & 40.39\textsuperscript{***} & 11.68\textsuperscript{***} & 17.55\textsuperscript{***} & 30.68\textsuperscript{***} & 81.37\textsuperscript{***}\\
+    \quad SD & 6.28 & 5.75 & 4.58 & 10.62 & 4.24\\
+    \quad Effect size & 3.78 & 1.79 & 2.01 & 2.10 & 7.40\\ 
+    % \multicolumn{6}{l}{\textbf{RSC + PCA leakage}}\\
+    % \quad Accuracy (\%) & 40.39\textsuperscript{***} & 11.68\textsuperscript{***} & 17.55\textsuperscript{***} & 30.68\textsuperscript{***} & 81.37\textsuperscript{***}\\
+    % \quad SD & 6.28 & 5.75 & 4.58 & 10.62 & 4.24\\
+    % \quad Effect size & 3.78 & 1.79 & 2.01 & 2.10 & 7.40\\       
+\bottomrule
+\multicolumn{6}{p{0.9\linewidth}}{\small `\dag' indicates that the repeated-stimulus confound cannot be mitigated for the task.}\\
+\multicolumn{6}{p{0.9\linewidth}}{\small `*', `**', and `***' indicates is greater than chance-level accuracy at the $p < 0.05$, $p < 0.01$, and $p < 0.001$ significance levels, respectively.}
+\end{tabular}
+
+    
