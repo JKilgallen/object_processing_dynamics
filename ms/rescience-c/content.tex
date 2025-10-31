@@ -140,7 +140,7 @@ Our results suggest that the repeated-stimulus confound not only misrepresents o
 \subsection{The temporal dynamics of object recognition}
 In Table~\ref{tab:temporally-resolved} we report the results of the temporally resolved decoding analyses. The statistical significance of classification accuracies were assessed using a one-sample t-test with confidence level \(\alpha=0.05\). To account for the multiple comparisons across decoding tasks and temporal windows, the significance of results within each table are adjusted using the two-stage Benjamini-Yekutieli procedure to control the false discovery rate~\citep{Benjamini:2006}.
 
-\begin{table}
+\begin{table}[b]
     \caption{Summary of the temporally-resolved decoding analyses.\label{tab:temporally-resolved}}
     \input{../../figures/tables/test_temporally_resolved_summary.tex}    
 \end{table}
@@ -165,17 +165,16 @@ We find that the separability of object categories is disproportionately overest
 
 We find the temporal evolution of the representational structure of object categories is misrepresented in the target study. As in the full-response decoding analyses, the separability of the inanimate object categories is overestimated. Moreover, this overestimation is most prominent over the 80--224~ms post-stimulus interval, suggesting that meaningful distinctions between the neural representation of natural and artificial inanimate objects occur later in EEG data than suggested in the target study.
 
-\begin{figure}
+\begin{figure}[b]
     \centering
     \includegraphics[width=\columnwidth]{SUDB_temporal_window_category_decoding/LDA/all_electrodes/unconfounded_test/dendrograms.pdf}        
-    \caption{\textbf{The temporal evolution of object-category recognition.} While the evolution of the representational space is broadly similar when the confound is present (top) and when it is mitigated (bottom), we observe the same overestimation of separability in the inanimate object categories, particularly during the early temporal windows.\label{fig:category-temporal-dendrograms}}
+    \caption{\textbf{The temporal evolution of object-category recognition.}\label{fig:category-temporal-dendrograms}}
 \end{figure}
 
 \subsection{The spatio-temporal dynamics of object-category recognition}
 Lastly, the spatio-temporally resolved classifications conducted are visualized in Fig.~\ref{fig:category-spatiotemporal} using a sequence of topographical maps of classifier accuracy. To account for the multiple comparisons across electrodes and temporal windows, the significance of results within each table are adjusted using the two-stage Benjamini-Yekutieli procedure to control the false discovery rate.
 
-\begin{figure}
-    \centering
+\begin{figure} 
     \centering
     \begin{minipage}{\columnwidth} 
         \includegraphics[width=\columnwidth]{SUDB_single_electrode_temporal_window_category_decoding/LDA/unconfounded_test/topomaps.pdf}   
